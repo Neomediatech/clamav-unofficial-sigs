@@ -1,0 +1,22 @@
+FROM debian:trixie
+
+RUN apt-get update && \
+    apt-get install -y fangfrisch && \
+    rm -rf /var/lib/apt/lists* && \
+    groupadd -g 101 clamav && \
+    useradd -u 100 -g 101 -m clamav && \
+    fangfrisch dumpconf|sed 's|\[DEFAULT\]|\[DEFAULT\]\ndb_url = sqlite:////home/clamav/db.sqlite\nlocal_directory = /var/lib/clamav|; s|enabled.*|enabled = true|; s|\[securiteinfo\]|\[securiteinfo\]\nenabled = false| ; s|\[malwarepatrol\]|\[malwarepatrol\]\nenabled = false|' > /home/clamav/fangfrisch.conf && \
+    mkdir -p /var/lib/clamav && \
+    chown clamav:clamav /var/lib/clamav
+
+USER clamav
+
+VOLUME /home/clamav /var/lib/clamav
+
+RUN fangfrisch --conf /home/clamav/fangfrisch.conf initdb
+
+COPY --chmod=755 entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+
+WORKDIR /home/clamav
+
