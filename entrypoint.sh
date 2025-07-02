@@ -5,7 +5,7 @@ if [[ ! -d /var/lib/clamav ]]; then
 fi
 
 if [[ ! -f /home/clamav/fangfrisch.conf ]]; then
-  fangfrisch dumpconf|sed 's|\[DEFAULT\]|\[DEFAULT\]\ndb_url = sqlite:////home/clamav/db.sqlite\nlocal_directory = /var/lib/clamav|; s|enabled.*|enabled = true|; s|\[securiteinfo\]|\[securiteinfo\]\nenabled = false| ; s|\[malwarepatrol\]|\[malwarepatrol\]\nenabled = false|' > /home/clamav/fangfrisch.conf
+  fangfrisch dumpconf|sed 's|\[DEFAULT\]|\[DEFAULT\]\ndb_url = sqlite:////home/clamav/db.sqlite\nlocal_directory = /var/lib/clamav|; s|enabled.*|enabled = true|; s|\[securiteinfo\]|\[securiteinfo\]\nenabled = false| ; s|\[malwarepatrol\]|\[malwarepatrol\]\nenabled = false| ; s|\[interserver\]|\[interserver\]\nenabled = true| ; s|\[sanesecurity\]|\[sanesecurity\]\nenabled = true| ; s|\[urlhaus\]|\[urlhaus\]\nenabled = true|' > /home/clamav/fangfrisch.conf
 fi
 
 if [[ ! -f /home/clamav/db.sqlite ]]; then
