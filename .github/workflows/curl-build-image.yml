@@ -27,4 +27,4 @@ jobs:
     uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
     secrets: inherit
     with:
-      base-image: ghcr.io/rspamd/rspamd-docker
+      base-image: debian:trixie
